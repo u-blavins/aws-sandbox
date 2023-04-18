@@ -1,4 +1,3 @@
-# guide found through: https://blog.gruntwork.io/how-to-manage-terraform-state-28f5697e68fa
 terraform {
   required_providers {
     aws = {
@@ -9,8 +8,8 @@ terraform {
 
   backend "s3" {
     bucket         = "BUCKET_NAME"
-    key            = "global/tf-backend/euw2/terraform.tfstate"
-    region         = "eu-west-2"
+    key            = "global/tf-backend/euw1/terraform.tfstate"
+    region         = "eu-west-1"
 
     dynamodb_table = "tf-state-lock-table"
     encrypt        = true
@@ -20,7 +19,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-2"
+  region = "eu-west-1"
 }
 
 resource "aws_s3_bucket" "tf_state" {
@@ -75,5 +74,4 @@ resource "aws_dynamodb_table" "tf_lock" {
   server_side_encryption {
     enabled = true
   }
-
 }
