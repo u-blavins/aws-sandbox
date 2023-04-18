@@ -1,0 +1,7 @@
+# general files
+.idea
+
+# terraform files
+*.terraform
+*.terraform.lock.hcl
+*terraform.tfstate*
