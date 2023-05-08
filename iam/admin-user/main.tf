@@ -7,25 +7,22 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "BUCKET_NAME"
-    key            = "global/iam/admin-user/euw2/terraform.tfstate"
-    region         = "eu-west-2"
-
-    dynamodb_table = "tf-state-lock-table"
-    encrypt        = true
+    key     = "global/iam/admin-user/euw2/terraform.tfstate"
+    encrypt = true
+    region  = "eu-west-2"
   }
 
   required_version = ">= 1.2.0"
 }
 
 provider "aws" {
-  region = "eu-west-2"
+  region = var.aws_region
 }
 
 # create aws iam group for administrators
 resource "aws_iam_group" "admins" {
-  name = "Admins"
-  path = "/"
+  name = var.iam_group_name
+  path = var.iam_path
 }
 
 # reference iam policy for admin access - using aws managed policy
@@ -41,8 +38,8 @@ resource "aws_iam_group_policy_attachment" "admins" {
 
 # create iam admin user
 resource "aws_iam_user" "admin_user" {
-  name = "ADMIN_NAME"
-  path = "/"
+  name = var.iam_user_name
+  path = var.iam_path
 }
 
 # attach admin user to admin group

@@ -24,10 +24,6 @@ resource "aws_s3_bucket" "tf_state" {
   tags = {
     "Name" = var.terraform_bucket_name
   }
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
@@ -53,6 +49,20 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "bucket_lc_config" {
+  bucket = aws_s3_bucket.tf_state.id
+
+  rule {
+    id     = "expire-non-current-objects-and-delete"
+    status = "Enabled"
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 10
+    }
+  }
 }
 
 resource "aws_dynamodb_table" "tf_lock" {

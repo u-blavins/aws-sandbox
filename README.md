@@ -40,4 +40,5 @@ $ vim backend.hcl
 
 $ terraform init -backend-config=backend.hcl
 $ terraform plan -var-file=secret.tfvars
+$ terraform apply -var-file=secret.tfvars
 ```
