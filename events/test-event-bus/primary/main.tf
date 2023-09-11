@@ -27,9 +27,18 @@ resource "aws_cloudwatch_event_bus" "podcast" {
   }
 }
 
-#resource "aws_cloudwatch_event_archive" "podcast" {
-#  description      = "Event Archive for the test-message-bus"
-#  event_source_arn = aws_cloudwatch_event_bus.podcast.arn
-#  name             = "test-message-bus-archive"
-#  retention_days   = 30
+#resource "aws_cloudwatch_event_rule" "podcast" {
+#  description = "Log Events to CloudWatch"
+#  name        = "test-message-bus-event-logger"
+#
+#  event_pattern = jsonencode({
+#    account = ["903771974408"]
+#  })
 #}
+
+resource "aws_cloudwatch_event_archive" "podcast" {
+  description      = "Event Archive for the test-message-bus"
+  event_source_arn = aws_cloudwatch_event_bus.podcast.arn
+  name             = "test-message-bus-archive"
+  retention_days   = 30
+}
