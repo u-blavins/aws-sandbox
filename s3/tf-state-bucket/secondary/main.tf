@@ -7,9 +7,9 @@ terraform {
   }
 
   backend "s3" {
-    key            = "global/tf-backend/euw1/terraform.tfstate"
-    region         = "eu-west-1"
-    encrypt        = true
+    key     = "global/tf-backend/euw1/terraform.tfstate"
+    region  = "eu-west-1"
+    encrypt = true
   }
 
   required_version = ">= 1.2.0"
